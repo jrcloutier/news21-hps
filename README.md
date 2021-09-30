@@ -27,22 +27,16 @@ There have been four phases covering the following time periods:
 
 Phase 1 was collected on a weekly basis, but that proceeding phases had two-week collection periods, even though the releases are still called "weekly" releases. Week 1 was also collected over two weeks.
 
-Although we analyzed data from several different releases covering different points in the pandemic, we settled on Week 22, January 6-18, 2021, when COVID-19 cases peaked in the U.S. The initial health and economic shock of the pandemic caught the country flat footed. By January, however, the U.S. government had been grappling with the pandemic and economic downtown for nine months, and COVID-19 relief under the Trump administration had been widely distributed. Disparities at this point in pandemic exposed systemic failure. We wanted to identify for whom federal aid wasn't enough.
+Although we analyzed data from several different releases covering different points in the pandemic, we settled on Week 22, January 6-18, 2021, when COVID-19 cases peaked in the U.S. The initial health and economic shock of the pandemic caught the country flat footed. By January, however, the U.S. government had been grappling with the pandemic and economic downtown for nine months, and COVID-19 relief under the Trump administration had been widely distributed. Disparities at this point in pandemic exposed systemic failure; we wanted to identify for whom federal aid wasn't enough.
 
 
 ## Analysis
 
 As our colleague, Chase Hunter, has reported, the [poverty rate](https://unmaskingamerica.news21.com/extras/poverty-line/) is an imperfect measurement of the financial health and well-being of a family. The Overview team, therefore, reviewed responses to four questions -- regarding pandemic-related job losses, household expenses, food scarcity, and housing insecurity -- to gauge hardship.
 
-The results of our analysis are in the output [files](https://github.com/jrcloutier/news21-hps/blob/main/README.md#files), linked below. Our field [reporting](https://unmaskingamerica.news21.com/overview/) and data analysis indicate that while federal assistance forestalled an overall rise in poverty, families at opposite ends of America's racial and class divide experienced widely different outcomes. When new COVID-19 cases peaked in early January, low-wage workers and people of color were more likely to report hardship. Black and Hispanic individuals were each nearly twice as likely as white individuals to say they were having difficulty paying basic household expenses. 5.57% of white households were behind on their housing payments, compared to 18.89% of black households and 14.32% of Hispanic households.
+I recommend that anyone who wants to go through our analysis step-by-step download the [.Rmd](https://github.com/jrcloutier/news21-hps/blob/main/hps22.Rmd) file from the repository and open it in [R Studio](https://www.rstudio.com). There shouldn't be a need to download data from the Census Bureau; a line of code in the .Rmd will do this automatically, saving a SAS file with survey results, a SAS file with replicate weights, and a data dictionary, directly to the open project directory. (If you'd prefer to download the data directly from the U.S. Census Bureau, it releases the micro-data files containing individual responses to survey questions here: <https://www.census.gov/programs-surveys/household-pulse-survey/datasets.html>)
 
-These disparities persisted between income levels as well. The lowest earners were much more likely to report hardship, despite COVID-19 relief ostensibly aimed at supporting vulnerable families through the pandemic.
-
-We recommend that anyone who wants to go through our analysis step-by-step download the [.Rmd](https://github.com/jrcloutier/news21-hps/blob/main/hps22.Rmd) file from the repository and open it in [R Studio](https://www.rstudio.com). There shouldn't be a need to download data from the Census Bureau; a line of code in the .Rmd will do this automatically, saving a SAS file with survey results, a SAS file with replicate weights, and a data dictionary, directly to the open project directory. 
-
-If you'd prefer to download the data directly from the U.S. Census Bureau, it releases the micro-data files containing individual responses to survey questions here: <https://www.census.gov/programs-surveys/household-pulse-survey/datasets.html>
-
-The number of respondents for each collection period varies widely, as does the sample size and response rate. Technical documents, including source and accuracy statements for each release, are included [here](https://www.census.gov/programs-surveys/household-pulse-survey/technical-documentation.html). Overall response rates were low, but, according to a March 2020 [analysis](https://www2.census.gov/programs-surveys/demo/technical-documentation/hhp/2020_HPS_NR_Bias_Report-final.pdf) by the U.S. Census Bureau, weighting adjustment methods have helped mitigate non-response bias, a type of bias that occurs when people are unwilling or unable to respond to a survey due to a factor that makes them differ greatly from people who respond (e.g. internet access).
+Otherwise, we basically did the following: 
 
 First, we re-coded the following demographic variables to get the information into a format that works for us: geography (state and metropolitan statistical area), race and ethnicity, gender, income, and education level. We also calculated the approximate age of each respondent from the birth year provided.
 
@@ -52,6 +46,12 @@ We similarly re-coded responses to the questions we cared about: `EXPNS_DIF`, wh
 
 We then used [pollster](https://cran.r-project.org/web/packages/pollster/index.html), an R package that makes it easy to create topline and crosstab tables of simple weighted survey data, to compare responses between racial groups and income brackets.
 
+Our field [reporting](https://unmaskingamerica.news21.com/overview/) and data analysis indicate that when new COVID-19 cases peaked in early January, low-wage workers and people of color were more likely to report hardship. Black and Hispanic individuals were each nearly twice as likely as white individuals to say they were having difficulty paying basic household expenses. 5.57% of white households were behind on their housing payments, compared to 18.89% of black households and 14.32% of Hispanic households.
+
+These disparities persisted between income levels as well. The lowest earners were much more likely to report hardship, despite COVID-19 relief ostensibly aimed at supporting vulnerable families through the pandemic.
+
+We've exported the resuts in the four .csv files below. 
+
 ## Files
 
 [`recoded_hps22.csv`](https://github.com/jrcloutier/news21-hps/blob/main/recoded_hps22.csv) is a clean, re-coded version of the original dataset, containing select variables, including demographic information for each respondent and their responses to the questions we cared about (household expenses, food, housing, and employment).
@@ -60,8 +60,19 @@ We then used [pollster](https://cran.r-project.org/web/packages/pollster/index.h
 
 [`hps22_byinc.csv`](https://github.com/jrcloutier/news21-hps/blob/main/hps22_byinc.csv) contains a pivot table showing responses by income, showing the percentage of people within each income bracket who said they experienced difficulty paying household expenses, food or housing insecurity, etc.
 
-## Other uses
+## Accuracy
 
-We were interested primarily in racial and class disparities during the pandemic, but we did re-code for several characteristics associated with each respondent, including age, gender, education, and whether there are children in a given household. We coud replicate our analysis above using different demographics.
+The number of respondents for each collection period varies widely, as does the sample size and response rate. Technical documents, including source and accuracy statements for each release, are included [here](https://www.census.gov/programs-surveys/household-pulse-survey/technical-documentation.html). 
 
-Note that because the questionnaire evolved from one phase to the other, we would need to tweak the code to apply it to a release from a different phase.
+Overall response rates were low, but, according to a March 2020 [analysis](https://www2.census.gov/programs-surveys/demo/technical-documentation/hhp/2020_HPS_NR_Bias_Report-final.pdf) by the U.S. Census Bureau, weighting adjustment methods have helped mitigate non-response bias, a type of bias that occurs when people are unwilling or unable to respond to a survey due to a factor that makes them differ greatly from people who respond (e.g. internet access).
+
+Still, be aware the sample size for the survey is small. 
+
+## Adapting this code
+
+We were interested primarily in racial and class disparities during the pandemic, but we did re-code for several characteristics associated with each respondent, including age, gender, education, and whether there are children in a given household. You coud replicate our analysis above for different demographics. 
+
+You could also apply the code to a different release. It's important to note, however, that because the questionnaire evolved from one phase to the other, you may need to tweak the code to apply it to a release from a different phase. The column headings change, as do some the answer options on the questionnaire 
+
+
+
