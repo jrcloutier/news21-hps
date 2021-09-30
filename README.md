@@ -45,7 +45,7 @@ The results of our analysis are in the output files, linked below. Our field [re
 
 These disparities persisted between income levels as well. The lowest earners were much more likely to report hardship, despite COVID-19 relief ostensibly aimed at supporting vulnerable families through the pandemic.
 
-We recommend that anyone who wants to go through our analysis step-by-step download the .Rmd file from the repository and open it in [R Studio](https://www.rstudio.com). There shouldn't be a need to download data from the Census Bureau; a line of code in the .Rmd will do this automatically, saving a SAS file with survey results, a SAS file with replicate weights, and a data dictionary, directly to the open project directory.
+We recommend that anyone who wants to go through our analysis step-by-step download the [.Rmd](https://github.com/jrcloutier/news21-hps/blob/main/hps22.Rmd) file from the repository and open it in [R Studio](https://www.rstudio.com). There shouldn't be a need to download data from the Census Bureau; a line of code in the .Rmd will do this automatically, saving a SAS file with survey results, a SAS file with replicate weights, and a data dictionary, directly to the open project directory.
 
 First, we re-coded the following demographic variables to get the information into a format that works for us: geography (state and metropolitan statistical area), race and ethnicity, gender, income, and education level. We also calculated the approximate age of each respondent from the birth year provided.
 
