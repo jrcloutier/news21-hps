@@ -201,6 +201,7 @@ working_hps <- hps22 %>%
           age = age_calc(birth_year, enddate = Sys.Date(), units = "years", precise = FALSE)) %>%
   # Removes the variables we no longer need from df
   select(-TBIRTH_YEAR, -THHLD_NUMKID, -INCOME, -NEW_INCOME, -EEDUC, -EGENDER, -new_race, -RRACE, -RHISPANIC, -EST_MSA, -EST_ST)
+  
 ```
 
 With the most important demographic information re-coded, we can switch to the responses we care about, starting with household expenses.
