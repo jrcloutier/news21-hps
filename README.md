@@ -13,8 +13,7 @@ There have been four phases to survey covering the following time periods:
 
 Phase 1 was collected on a weekly basis. The proceeding phases had two-week collection periods, even though the releases are still called "weekly" releases. (Week 1 was also collected over two weeks.)
 
-Although we analyzed data from several different releases, covering different points in the pandemic, we settled on Week 22, January 6-18, 2021. That's when COVID-19 cases peaked in the U.S. The initial health and economic shock of the pandemic caught the country flat footed. By January, however, the U.S. government had been grappling with the pandemic and economic downtown for nine months, and COVID-19 relief under the Trump administration had been widely distributed. Lingering disparities would then suggest problems with the distribution of aid and/or an unequal recovery. Our field reporting also showed that many families felt the full weight of the pandemic months after it began, a sign that the effects of the initial economic shock lingered for months. 
-
+Although we analyzed data from several different releases, covering different points in the pandemic, we settled on Week 22, January 6-18, 2021. That's when COVID-19 cases peaked in the U.S. The initial health and economic shock of the pandemic caught the country flat footed. By January, however, the U.S. government had been grappling with the pandemic and economic downtown for nine months, and COVID-19 relief under the Trump administration had been widely distributed. Lingering disparities would then suggest problems with the distribution of aid and/or an unequal recovery. 
 
 ## Analysis
 
