@@ -63,7 +63,7 @@ We then used [pollster](https://cran.r-project.org/web/packages/pollster/index.h
 
 [`hps22_byinc.csv`](https://github.com/jrcloutier/news21-hps/blob/main/hps22_byinc.csv) contains a pivot table showing responses by income, showing the percentage of people within each income bracket who said they experienced difficulty paying household expenses, food or housing insecurity, etc.
 
-## Using the data 
+## Other uses
 
 We were interested primarily in racial and class disparities during the pandemic, but we did re-code for several characteristics associated with each respondent, including age, gender, education, and whether there are children in a given household. We coud replicate our analysis above using different demographics.
 
