@@ -46,11 +46,11 @@ We similarly re-coded responses to the questions we cared about: `EXPNS_DIF`, wh
 
 We then used [pollster](https://cran.r-project.org/web/packages/pollster/index.html), an R package that makes it easy to create topline and crosstab tables of simple weighted survey data, to compare responses between racial groups and income brackets.
 
-Our field [reporting](https://unmaskingamerica.news21.com/overview/) and data analysis indicate that when new COVID-19 cases peaked in early January, low-wage workers and people of color were more likely to report hardship. Black and Hispanic individuals were each nearly twice as likely as white individuals to say they were having difficulty paying basic household expenses. 5.57% of white households were behind on their housing payments, compared to 18.89% of black households and 14.32% of Hispanic households.
+Our field [reporting](https://unmaskingamerica.news21.com/overview/) and data analysis indicate that when new COVID-19 cases peaked in early January, low-wage workers and people of color were more likely to report hardship. Black and Hispanic individuals were each nearly twice as likely as white individuals to say they were having difficulty paying basic household expenses. 5.57% of white households were behind on their housing payments, compared to 18.89% of Black households and 14.32% of Hispanic households.
 
 These disparities persisted between income levels as well. The lowest earners were much more likely to report hardship, despite COVID-19 relief ostensibly aimed at supporting vulnerable families through the pandemic.
 
-We've exported the resuts in the four .csv files below. 
+We've exported the resuts in the three .csv files below. 
 
 ## Files
 
