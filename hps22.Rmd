@@ -246,7 +246,7 @@ The results match, which tells us our code is sound. We'll continue to check our
 
 Q24 asks about household food sufficiency for the last 7 days, with four possible answers: 1) Enough of the kinds of food (I/we) wanted to eat 2) Enough, but not always the kinds of food (I/we) wanted to eat 3) Sometimes not enough to eat 4) Often not enough to eat. Let's condense this into two options: sufficient or insufficient.
 
-```{r}
+```{r food insecurity}
 
 working_hps <-working_hps %>%
   mutate( NEW_CURFOODSUF = 
@@ -291,7 +291,7 @@ Let's look at housing insecurity across the country next. Several questions addr
 
 The code chunk below takes responses from all three questions and groups respondents into two buckets. One contains people who are behind on their rent or mortgage payments AND who have little to no confidence they can make their next payments. The other holds everyone else: people who are caught up on rent or mortgage payments, as well as those who've fallen behind but feel confident they can make their next payment. This appears to be how the Census Bureau [measured](https://www.census.gov/data-tools/demo/hhp/#/?measures=HINSEC&periodSelector=22) housing insecurity.
 
-```{r}
+```{r housing insecurity}
 
 working_hps <- working_hps %>%
   mutate(NEW_HOUSING =
