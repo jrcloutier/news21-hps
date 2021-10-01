@@ -51,6 +51,6 @@ The number of respondents for each collection period varies widely, as does the 
 
 Overall response rates were low, but, according to a March 2020 [analysis](https://www2.census.gov/programs-surveys/demo/technical-documentation/hhp/2020_HPS_NR_Bias_Report-final.pdf) by the U.S. Census Bureau, weighting adjustment methods have helped mitigate non-response bias, a type of bias that occurs when people are unwilling or unable to respond to a survey due to a factor that makes them differ greatly from people who respond (e.g. internet access). Still, be aware the sample size for the survey is small. 
 
-The questionnaire also evolved from one phase to the other. Different questions were asked and different answer options were available. This, along with inconsistencies in sample size, make it difficult to measure any one variable over time. We decided against measuring how hardship evolved during the pandemic. Instead, we treated each release as an isolated snapshot of the country during a given two-week period. 
+The questionnaire also changed from one phase to the other. Different questions were asked and different answer options were available. This, along with inconsistencies in sample size, make it difficult to measure any one variable over time. We therefore decided against measuring how hardship evolved during the pandemic. Instead, we treated each release as an isolated snapshot of the country during a given two-week period. 
 
 
