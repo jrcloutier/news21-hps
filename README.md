@@ -1,6 +1,6 @@
 # News21 Analysis of Household Pulse Survey
 
-For the 2021 project "Unmasking America," News21 investigated disparities in policies and practices that intensified under COVID-19 and may persist, exploring who has unequal access to health care, education, housing, and food.(You can learn more about Carnegie-Knight News21, a national reporting initiative, headquartered at Arizona State University's Walter Cronkite School of Journalism and Mass Communication, [here](https://news21.com/about/).
+For the 2021 project "Unmasking America," News21 investigated disparities in policies and practices that intensified under COVID-19 and may persist, exploring who has unequal access to health care, education, housing, and food.(You can learn more about Carnegie-Knight News21, a national reporting initiative, headquartered at Arizona State University's Walter Cronkite School of Journalism and Mass Communication, [here](https://news21.com/about/)).
 
 I was on a team that sought to identify whether there were racial and class disparities in outcomes during the coronavirus pandemic. We turned to the Household Pulse Survey (HPS), a bi-weekly survey by the U.S. Census Bureau measuring the impact of the coronavirus pandemic from a social and economic perspective. The survey asks questions about childcare, education, employment, food security, health, housing, social security benefits, household spending, consumer spending associated with stimulus payments, intention to receive a COVID-19 vaccination, and transportation.
 
