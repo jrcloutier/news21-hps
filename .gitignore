@@ -1,6 +1,12 @@
+# Files we don't want to sync
 .Rproj.user
 .Rhistory
 .RData
 .Ruserdata
+.DS_Store
 news21-hps.Rproj
 pulse2021_puf_22.sas7bdat
+
+# Ignore output for publishing
+/.quarto/
+/_site/
