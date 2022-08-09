@@ -17,10 +17,10 @@ This repository contains News21's data analysis for [Unmasking America](https:/
 
 The bureau's data is available for download here: <https://www2.census.gov/programs-surveys/demo/datasets/hhp/>.
 
-The code chunks below show how News21 recoded responses for our analysis. A recoded version of select variables --- including demographic information and response to questions about household expenses, housing, food, and employment --- is available in a .csv format from Github, [here](https://github.com/jrcloutier/news21-hps/blob/master/docs/recoded_hps22.csv). We also generated two crosstabs showing the percentage of people within each racial group and income bracket who said they experienced difficulty paying for household expenses, food or housing, or who suffered a job loss due to the pandemic:
+The code chunks below show how News21 recoded responses for our analysis. A recoded version of select variables --- including demographic information and response to questions about household expenses, housing, food, and employment --- is available in a .csv format from Github, [here](https://github.com/jrcloutier/news21-hps/blob/main/hps22_byrace.csv). We also generated two crosstabs showing the percentage of people within each racial group and income bracket who said they experienced difficulty paying for household expenses, food or housing, or who suffered a job loss due to the pandemic:
 
--   [hps22_byrace.csv](https://github.com/jrcloutier/news21-hps/blob/master/docs/hps22_byrace.csv)
--   [hps22_byinc.csv](https://github.com/jrcloutier/news21-hps/blob/master/docs/hps22_byinc.csv)
+-   [hps22_byrace.csv](https://github.com/jrcloutier/news21-hps/blob/main/hps22_byrace.csv)
+-   [hps22_byinc.csv](https://github.com/jrcloutier/news21-hps/blob/main/hps22_byinc.csv)
 
 For more information about our methodology, or if you have any questions about the data analysis, please contact: Jimmy Cloutier, [jrcloutier\@proton.me](mailto:jrcloutier@proton.me). 
 
