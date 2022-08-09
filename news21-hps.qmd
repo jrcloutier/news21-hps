@@ -1,0 +1,435 @@
+---
+title: "Unmasking America"
+subtitle: "Household Pulse Survey Analysis"
+format:
+  html:
+    toc: true
+    smooth-scroll: true
+    link-external-newwindow: true
+    fontsize: 0.9em
+    df-print: paged
+    code-link: true
+    
+editor: visual
+---
+
+This repository contains News21's data analysis for [Unmasking America](https://unmaskingamerica.news21.com/), an investigation of COVID-19's lingering toll in the U.S. published in the summer of 2021. The data team analyzed data from the U.S. Census Bureau's biweekly Household Pulse Survey (HPS), which measured the impact of the pandemic from a social and economic perspective with questions about housing, household expenses, employment and food insecurity. Although the data team analyzed responses from several different points in the pandemic, we chose to focus on a two-week period from Jan. 6-18, 2021 --- around the time COVID-19 cases peaked in the U.S.
+
+The bureau's data is available for download here: <https://www2.census.gov/programs-surveys/demo/datasets/hhp/>.
+
+The code chunks below show how News21 recoded responses for our analysis. A recoded version of select variables --- including demographic information and response to questions about household expenses, housing, food, and employment --- is available in a .csv format from Github, [here](https://github.com/jrcloutier/news21-hps/blob/main/hps22_byrace.csv). We also generated two crosstabs showing the percentage of people within each racial group and income bracket who said they experienced difficulty paying for household expenses, food or housing, or who suffered a job loss due to the pandemic:
+
+-   [hps22_byrace.csv](https://github.com/jrcloutier/news21-hps/blob/main/hps22_byrace.csv)
+-   [hps22_byinc.csv](https://github.com/jrcloutier/news21-hps/blob/main/hps22_byinc.csv)
+
+For more information about our methodology, or if you have any questions about the data analysis, please contact: Jimmy Cloutier, [jrcloutier\@proton.me](mailto:jrcloutier@proton.me). 
+
+You can learn more about News21, a national reporting initiative headquartered at Arizona State University's Walter Cronkite School of Journalism and Mass Communication, on its [website](https://news21.com/about/).
+
+### Read data
+
+```{r packages}
+#| message: false
+
+# Read and clean data
+library(haven)
+library(tidyverse)
+library(lubridate)
+library(janitor)
+
+# Create crosstabs
+library(pollster)
+
+# Create tables
+library(reactable)
+library(reactablefmtr)
+
+```
+
+```{r read data}
+
+hps22 <- read_sas("pulse2021_puf_22.sas7bdat") %>%
+  clean_names()
+
+```
+
+### Recode demographics
+
+```{r recode demographics}
+
+# Recode demographics
+
+hps_recoded <- hps22 %>%
+  mutate(
+    # New state and city variables 
+    state = 
+      factor(est_st,
+             levels = c(01, 02, 04, 05, 06, 08, 09, 10, 11, 12, 13, 15, 16, 17, 
+                        18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 
+                        32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 44, 45, 46, 
+                        47, 48, 49, 50, 51, 53, 54, 55, 56),
+             labels = c("Alabama",
+                        "Alaska",
+                        "Arizona",
+                        "Arkansas",
+                        "California",
+                        "Colorado",
+                        "Connecticut",
+                        "Delaware",
+                        "D.C.",
+                        "Florida",
+                        "Georgia",
+                        "Hawaii",
+                        "Idaho",
+                        "Illinois",
+                        "Indiana",
+                        "Iowa",
+                        "Kansas",
+                        "Kentucky",
+                        "Louisiana",
+                        "Maine",
+                        "Maryland",
+                        "Massachusetts",
+                        "Michigan",
+                        "Minnesota",
+                        "Mississippi",
+                        "Missouri",
+                        "Montana",
+                        "Nebraska",
+                        "Nevada",
+                        "New Hampshire",
+                        "New Jersey",
+                        "New Mexico",
+                        "New York",
+                        "North Carolina",
+                        "North Dakota",
+                        "Ohio",
+                        "Oklahoma", 
+                        "Oregon",
+                        "Pennsylvania",
+                        "Rhode Island",
+                        "South Carolina",
+                        "South Dakota",
+                        "Tennessee",
+                        "Texas",
+                        "Utah",
+                        "Vermont",
+                        "Virginia",
+                        "Washington",
+                        "West virginia",
+                        "Wisconsin",
+                        "Wyoming")),
+    metro =
+      factor(est_msa,
+             levels = c(35620, 31080, 16980, 19100, 26420, 47900, 33100, 37980, 
+                        12060, 38060, 14460, 41860, 40140, 19820, 42660),
+             labels = c("New York-Newark-Jersey City, NY-NJ-PA Metro Area",
+                        "Los Angeles-Long Beach-Anaheim, CA Metro Area",
+                        "Chicago-Naperville-Elgin, IL-IN-WI Metro Area",
+                        "Dallas-Fort Worth-Arlington, TX Metro Area",
+                        "Houston-The Woodlands-Sugar Land, TX Metro Area",
+                        "Washington-Arlington-Alexandria, DC-VA-MD-WV Metro Area",
+                        "Miami-Fort Lauderdale-Pompano Beach, FL Metro Area",
+                        "Philadelphia-Camden-Wilmington, PA-NJ-DE-MD Metro Area",
+                        "Atlanta-Sandy Springs-Alpharetta, GA Metro Area",
+                        "Phoenix-Mesa-Chandler, AZ Metro Area",
+                        "Boston-Cambridge-Newton, MA-NH Metro Area",
+                        "San Francisco-Oakland-Berkeley, CA Metro Area",
+                        "Riverside-San Bernardino-Ontario, CA Metro Area",
+                        "Detroit-Warren-Dearborn, MI Metro Area",
+                        "Seattle-Tacoma-Bellevue, WA Metro Area")),
+    # New race and ethnicity variable
+    new_race = 
+      case_when(rhispanic  == 2               ~   10,  # Hispanic
+                rhispanic  == 1 & rrace == 1  ~   20,  # White, non-Hispanic
+                rhispanic  == 1 & rrace == 2  ~   30,  # Black, non-Hispanic
+                rhispanic  == 1 & rrace == 3  ~   40,  # Asian, non-Hispanic
+                rhispanic  == 1 & rrace == 4  ~   50), # Other
+    race = factor(new_race, 
+                  levels = c(10, 20, 30, 40, 50), 
+                  labels = c("Hispanic", 
+                             "White", 
+                             "Black", 
+                             "Asian", 
+                             "Other")),
+    # New gender variable
+    gender = factor(egender, 
+                    levels=c(1,2), 
+                    labels=c("male", "female")),
+    # New education variable
+    edu = factor(eeduc,
+                 levels = c(1, 2, 3, 4, 5, 6, 7),
+                 labels = c("less than high school",
+                            "some high school",
+                            "high school graduate or equivalent",
+                            "some college",
+                            "associate's degree",
+                            "bachelor's degree",
+                            "graduate degree")),
+    # New income variable
+    new_income =
+      case_when(income == 1 | income == 2   ~ 10,  # less than $34,999
+                income == 3 | income == 4   ~ 20,  # $35,000 - $74,999
+                income == 5 | income == 6   ~ 30,  # $75,000 - $149,999
+                income == 7 | income == 8   ~ 40), # $150,000 and above
+    inc = factor(new_income,
+                 levels = c(10, 20, 30, 40),
+                 labels = c("≤ $34,999",
+                            "$35,000 - $74,999",
+                            "$75,000 - $149,999",
+                            "≥ $150,000"))
+  )
+  
+```
+
+### Recode responses
+
+```{r recode responses}
+
+# Recode responses
+
+hps_recoded <- hps_recoded %>%
+  mutate(
+    # Difficulty paying for household expenses
+    new_expns_dif = 
+      case_when(expns_dif == 1 | expns_dif == 2   ~ 10,   # Not difficult or a little difficult
+                expns_dif == 3 | expns_dif == 4   ~ 20),  # Somewhat to very difficult
+    expns = factor(new_expns_dif,
+                   levels = c(10, 20),
+                   labels = c("not_difficult", "difficult")),
+    # Food scarcity 
+    new_curfoodsuf = 
+      case_when(curfoodsuf == 1 | curfoodsuf == 2  ~ 10,     #food sufficient
+                curfoodsuf == 3 | curfoodsuf == 4  ~ 30),    #food insufficient
+    foodsec = factor(new_curfoodsuf,
+                     levels = c(10, 30),
+                     labels = c("sufficient",
+                               "insufficient")),
+    # Housing security
+    new_housing =
+      case_when(
+        # Behind AND with little OR no confidence they can pay
+        (rentcur == 2 | mortcur == 2) & (mortconf == 1 | mortconf == 2)             ~ 10,  
+        # Current OR confident they can pay
+        rentcur == 1 | mortcur == 1 | mortconf == 3 | mortconf == 4 | mortconf == 5 ~ 20),                               
+    housingsec = factor(new_housing,
+                        levels = c(10, 20),
+                        labels = c("housing insecure", "housing secure")),
+    # Reason for being out of work
+    new_rsnnowrk = 
+      case_when(
+        # Retired
+        rsnnowrk == 7                                                    ~ 10,
+        # Sick with COVID-19 symptoms OR caring for someone who is
+        rsnnowrk == 2  | rsnnowrk == 3                                   ~ 20,
+        # Concerned about getting or spreading the coronavirus
+        rsnnowrk == 13                                                   ~ 25,
+        # Caring for children OR an elderly person 
+        rsnnowrk == 4  | rsnnowrk == 5                                   ~ 30,
+        # Sick or disabled 
+        rsnnowrk == 6                                                    ~ 40, 
+        # Pandemic-related job loss
+        rsnnowrk == 8  | rsnnowrk == 9 | rsnnowrk == 10 | rsnnowrk == 11 ~ 50, 
+        # Other, including those who did not want to be employed at this time 
+        rsnnowrk == 1  | rsnnowrk == 12                                  ~ 60,
+        # Currently working
+        anywork == 1                                                     ~ 70),
+    worksituation = factor(new_rsnnowrk, 
+                           levels = c(10, 20, 25, 30, 40, 50, 60, 70), 
+                           labels = c("retired", 
+                                      "sick with COVID-19 or caring for someone who is", 
+                                      "concerned about getting or spreading COVID-19", 
+                                      "caring for children or an elderly person", 
+                                      "sick or disabled", 
+                                      "pandemic-related job loss", 
+                                      "other",
+                                      "currently working"))
+    )%>%
+  select(scram, pweight, hweight, state, metro, race, gender, edu, inc, expns, 
+         foodsec, housingsec, worksituation)
+
+
+```
+
+### Crosstabs
+
+```{r}
+
+#Crosstabs
+
+# Difficulty paying for household expenses
+expns_race <- hps_recoded %>%
+  select(race, expns, pweight) %>%
+  pollster::crosstab (race, expns, weight = pweight) %>%
+  select(-n)
+
+expns_inc <- hps_recoded %>%
+  select(inc, expns, pweight) %>%
+  pollster::crosstab (inc, expns, weight = pweight) %>%
+  select(-n)
+
+```
+
+```{r}
+#| echo: false
+
+reactable(expns_race,
+          striped = TRUE,
+          columns = list(
+            race = colDef(name = "Race"),
+            not_difficult = colDef(name = "Not Difficult", format = colFormat(suffix = "%", digits = 2)),
+            difficult = colDef(name = "Difficult", format = colFormat(suffix = "%", digits = 2)))) %>%
+  add_title("TABLE 1: % of people who reported experiencing difficulty paying household expenses", 
+            font_size = 15, 
+            align = "center",
+            margin(b = 50))
+  
+
+reactable(expns_inc, 
+          striped = TRUE,
+          columns = list(
+            inc = colDef(name = "Income"),
+            not_difficult = colDef(name = "Not Difficult", format = colFormat(suffix = "%", digits = 2)),
+            difficult = colDef(name = "Difficult", format = colFormat(suffix = "%", digits = 2))))
+
+
+```
+
+```{r}
+
+# Food scarcity
+
+foodsec_race <- hps_recoded %>%
+  select(race, foodsec, pweight) %>%
+  pollster::crosstab (race, foodsec, weight=pweight)%>%
+  select(-n)
+
+foodsec_inc <- hps_recoded %>%
+  select(inc, foodsec, pweight) %>%
+  pollster::crosstab (inc, foodsec, weight=pweight) %>%
+  select(-n)
+
+```
+
+```{r}
+#| echo: false
+
+reactable(foodsec_race,
+          striped = TRUE,
+          columns = list(
+            race = colDef(name = "Race"),
+            sufficient = colDef(name = "Sufficient", format = colFormat(suffix = "%", digits = 2)),
+            insufficient = colDef(name = "Insufficient", format = colFormat(suffix = "%", digits = 2)))) %>%
+  add_title("TABLE 2: % of people who reported food insufficiency", 
+            font_size = 15, 
+            align = "center",
+            margin(b=20))
+  
+
+reactable(foodsec_inc, 
+          striped = TRUE,
+          columns = list(
+            inc = colDef(name = "Income"),
+            sufficient = colDef(name = "Sufficient", format = colFormat(suffix = "%", digits = 2)),
+            insufficient = colDef(name = "Insuffcient", format = colFormat(suffix = "%", digits = 2))))
+
+
+```
+
+```{r}
+
+# Housing security
+
+housingsec_race <- hps_recoded %>%
+  select(housingsec, race, pweight) %>%
+  pollster::crosstab (race, housingsec, weight = pweight) %>%
+  select(-n)
+
+housingsec_inc <- hps_recoded %>%
+  select(housingsec, inc, pweight) %>%
+  pollster::crosstab (inc, housingsec, weight = pweight) %>%
+  select(-n)
+
+```
+
+```{r}
+#| echo: false
+
+reactable(housingsec_race,
+          striped = TRUE,
+          columns = list(
+            race = colDef(name = "Race"),
+            `housing insecure` = colDef(
+              name = "Insecure", 
+              format = colFormat(suffix = "%", 
+                                 digits = 2)),
+            `housing secure` = colDef(
+              name = "Secure", 
+              format = colFormat(suffix = "%", 
+                                 digits = 2)))) %>%
+  add_title("TABLE 3: % of people who reported housing insecurity", 
+            font_size = 15, 
+            align = "center",
+            margin(b=20))
+  
+
+reactable(housingsec_inc, 
+          striped = TRUE,
+          columns = list(
+            inc = colDef(name = "Income"),
+            `housing secure` = colDef(
+              name = "Secure", 
+              format = colFormat(suffix = "%",
+                                 digits = 2)),
+            `housing insecure` = colDef(
+              name = "Insecure",
+              format = colFormat(suffix = "%",
+                                 digits = 2))))
+
+
+```
+
+```{r}
+
+# Pandemic-related job loss
+
+worksituation_race <- hps_recoded %>%
+  select(race, worksituation, pweight) %>%
+  pollster::crosstab (race, worksituation, weight=pweight) %>%
+  select(race, "pandemic-related job loss")
+  
+worksituation_inc <- hps_recoded %>%
+  select(inc, worksituation, pweight) %>%
+  pollster::crosstab (inc, worksituation, weight=pweight) %>%
+  select(inc, "pandemic-related job loss")
+
+```
+
+```{r}
+#| echo: false
+
+reactable(worksituation_race,
+          striped = TRUE,
+          columns = list(
+            race = colDef(name = "Race"),
+            `pandemic-related job loss` = colDef(
+              name = "Pandemic-related Job Loss", 
+              format = colFormat(suffix = "%", 
+                                 digits = 2)))) %>%
+  add_title("TABLE 4: % of people who reported a pandemic-related job loss", 
+            font_size = 15, 
+            align = "center",
+            margin(b=20))
+  
+
+reactable(worksituation_inc,
+          striped = TRUE,
+          columns = list(
+            inc = colDef(name = "Income"),
+            `pandemic-related job loss` = colDef(
+              name = "Pandemic-related Job Loss", 
+              format = colFormat(suffix = "%", 
+                                 digits = 2))))
+
+
+```
